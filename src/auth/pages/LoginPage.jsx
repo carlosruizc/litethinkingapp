@@ -65,11 +65,15 @@ export const LoginPage = () => {
     setFormSubmitted(true);
     
     if (!isFormValid) return;
-    console.log("entro");
+    
     const respuesta=await signUser({ email, password });
-    console.log('respuesta', respuesta.email);
-    login(respuesta?.email);
-    navigate("/companies", { replace: true });
+    
+    console.log(respuesta)
+
+    if (respuesta.email){
+      login(respuesta?.email);
+      navigate("/companies", { replace: true });
+    }
   };
 
   return (

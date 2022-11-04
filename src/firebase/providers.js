@@ -1,4 +1,5 @@
 
+
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { FirebaseAuth } from "./config";
 
@@ -17,12 +18,11 @@ export const registerUser = async ({ email, password }) => {
 };
 
 export const signUser = async ({ email, password }) => {
-  console.log('email', password);
+
   try {
     const resp = await signInWithEmailAndPassword(FirebaseAuth, email, password);
     const { uid } = resp.user;
-    console.log('resp', resp);
-    console.log('email', resp.user.email);
+
     return {
       ok: true,
       email: resp.user.email
