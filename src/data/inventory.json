@@ -1,0 +1,33 @@
+[
+    {
+        
+        "sku":"123456",
+        "description":"Artículo tipo 1",
+        "quantity": 100
+    },
+    {
+        
+        "sku":"123457",
+        "description":"Artículo tipo 2",
+        "quantity": 200
+    },
+    {
+        
+        "sku":"123458",
+        "description":"Artículo tipo 3",
+        "quantity": 10
+    },
+    {
+        
+        "sku":"123459",
+        "description":"Artículo tipo 4",
+        "quantity": 0
+    },
+    {
+        
+        "sku":"123460",
+        "description":"Artículo tipo 5",
+        "quantity": 20
+    }
+   
+]
