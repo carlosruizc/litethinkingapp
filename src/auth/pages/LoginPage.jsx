@@ -18,8 +18,8 @@ export const LoginPage = () => {
   const { login } = useContext(AuthContext);
 
   const { email, password, onInputChange } = useForm({
-    email: "admin@mail.com",
-    password: "123456",
+    email: "",
+    password: "",
   });
 
   const navigate = useNavigate();
