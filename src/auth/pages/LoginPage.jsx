@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "../../hooks/useForm";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -11,16 +11,38 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { FirebaseAuth } from "../../firebase/config";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signUser } from "../../firebase/providers";
+
+
+const formData = {
+  email: "",
+  password: "",
+};
+
+const formValidations = {
+  email: [(value) => value.includes("@"), "El correo no es válido"],
+  password: [
+    (value) => value.length >= 6,
+    "La contraseña debe tener al menos 6 caracteres",
+  ],
+};
 
 export const LoginPage = () => {
   const { login } = useContext(AuthContext);
 
-  const { email, password, onInputChange } = useForm({
-    email: "",
-    password: "",
-  });
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const {
+    formState,
+    email,
+    password,
+    onInputChange,
+    isFormValid,
+    emailValid,
+    passwordValid,
+  } = useForm(formData, formValidations);
+
+  
 
   const navigate = useNavigate();
 
@@ -38,9 +60,15 @@ export const LoginPage = () => {
     navigate("/companies", { replace: true });
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    login(email);
+    setFormSubmitted(true);
+    
+    if (!isFormValid) return;
+    console.log("entro");
+    const respuesta=await signUser({ email, password });
+    console.log('respuesta', respuesta.email);
+    login(respuesta?.email);
     navigate("/companies", { replace: true });
   };
 
@@ -71,6 +99,8 @@ export const LoginPage = () => {
             name="email"
             value={email}
             onChange={onInputChange}
+            error={!!emailValid && formSubmitted}
+            helperText={emailValid}
             autoFocus
           />
           <TextField
@@ -83,6 +113,8 @@ export const LoginPage = () => {
             name="password"
             value={password}
             onChange={onInputChange}
+            error={!!passwordValid && formSubmitted}
+            helperText={passwordValid}
           />
 
           <Button
